@@ -1,4 +1,6 @@
 import streamlit as st
+from backend import search_movie, submit_review, generate_movieboard, get_director, get_movie_details
+
 
 st.title("CineScore+ Ver 2")
 
@@ -17,7 +19,7 @@ if option == "Search":
 elif option == "Review":
     st.header("Review a movie.")
 
-    # Search for a movie
+    # 1. Search for a movie
     title = st.text_input("Search for a movie")
     year = st.text_input("Release Year (optional)")
 
@@ -25,10 +27,37 @@ elif option == "Review":
         results = search_movie(title, year)
         st.session_state["search_results"] = results
     
+    # 2. Show search results
+    results = st.session_state.get("search_results", [])
+
+    if results:
+        st.subheader("Select a movie to review")
+
+        movie_titles = [f"{m['title']} ({m['year']})" for m in results]
+        selected = st.selectbox("Choose a movie", movie_titles)
+
+        movie = results[movie_titles.index(selected)]
+
+        movie_id = movie["id"]
+        movie_title = movie["title"]
+        genre_ids = movie["genre_ids"]
+
+        # 3. Input a rating for the review
+        rating = st.slider("Your rating", 1, 5)
+
+        # 4. Submit the review
+        if st.button("Submit Review"):
+            submit_review(movie_id, rating, movie_title, genre_ids)
+            st.success("Your review was saved!")
+    
+
+    
+
+    
 
 elif option == "Filter by Genre":
     st.header("Filter by Genre")
-    st.write("Genre filter interfaec WIP.")
+    st.write("Genre filter interface WIP.")
 
 elif option == "View Movieboard":
     st.header("Movieboard")
