@@ -16,7 +16,15 @@ if option == "Search":
 
 elif option == "Review":
     st.header("Review a movie.")
-    st.write("Review interface WIP")
+
+    # Search for a movie
+    title = st.text_input("Search for a movie")
+    year = st.text_input("Release Year (optional)")
+
+    if st.button("Search"):
+        results = search_movie(title, year)
+        st.session_state["search_results"] = results
+    
 
 elif option == "Filter by Genre":
     st.header("Filter by Genre")
