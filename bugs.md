@@ -9,3 +9,7 @@ Status: Fixed after adjusting standard to rating to refer to the 1-5 star rating
 Bug:Key error after adding lines to load new genres.csv. Columns were not in the correct order, so a key error was kicked back. 
 What happened:When I ran the cell containing the new code to load in entries for each ID and genre words, the program became confused because I listed the genre ID second rather than first. My columns were also not labeled, which I believe also contributed.
 Status: Updated and reformatted genres.csv with correct names and column order.
+
+Bug: Search returned a 404 error when a year was added as a search term option
+What happened: After adding code to allow for users to search with a title and release year, a search with a year attatched, ei Dune 2021, would return a 404 error. The year parameter was not included in the params dictionary. 
+Status: Fixed after adding year to the parameters. The TMDB url was built correctly this way, and returned the correct results.
